@@ -3,6 +3,7 @@
 ;;; servers (VPS).
 
 (use-modules (gnu))
+(use-service-modules networking)
 (use-package-modules bootloaders disk nvi)
 
 (define vm-image-motd (plain-file "motd" "
@@ -51,8 +52,8 @@ partprobe, and then 2) resizing the filesystem with resize2fs.\n"))
                           parted)
                     %base-packages))
 
-  (services (modify-services %base-services
+  (services (cons* (service dhcp-client-service-type) (modify-services %base-services
               (login-service-type config =>
                                   (login-configuration
                                     (inherit config)
-                                    (motd vm-image-motd))))))
+                                    (motd vm-image-motd)))))))
