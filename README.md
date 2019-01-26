@@ -27,6 +27,7 @@ $ ip link
 $ guix pull
 No space left on device
 $ shutdown
+# there is also reboot command
 ```
 
 Shift+Page up/Page down to scroll.
@@ -164,6 +165,8 @@ $ guix package -i openssh
 $ groupadd -g 50 sshd
 $ useradd  -c 'sshd PrivSep' -d /var/lib/sshd -m -g sshd -s /bin/false -u 50 sshd 
 ```
+
+- https://en.wikibooks.org/wiki/QEMU/Networking
 
 ## services
 
