@@ -39,10 +39,25 @@ partprobe, and then 2) resizing the filesystem with resize2fs.\n"))
                         (type "ext4"))
                       %base-file-systems))
 
+;; sshd group and user
+;; http://www.linuxfromscratch.org/blfs/view/stable/postlfs/openssh.html
+;; https://www.gnu.org/software/guix/manual/en/html_node/User-Accounts.html
+  (groups (cons (user-group
+                  (name "sshd")
+		  ;; could not set this, was set to 30001
+		  (id 50))
+                 %base-groups))
   ;; This is where user accounts are specified.  The "root"
   ;; account is implicit, and is initially created with the
   ;; empty password.
-  (users %base-user-accounts)
+  (users (cons (user-account
+                (name "sshd")
+                (comment "sshd PrivSep")
+                (group "sshd")
+                (uid 50)
+                (shell "/bin/false")
+                (home-directory "/var/lib/sshd"))
+               %base-user-accounts))
 
   ;; Globally-installed packages.
   (packages (append (list nvi fdisk
