@@ -164,3 +164,7 @@ $ guix package -i openssh
 $ groupadd -g 50 sshd
 $ useradd  -c 'sshd PrivSep' -d /var/lib/sshd -g sshd -s /bin/false -u 50 sshd 
 ```
+
+## services
+
+systemd is not an option https://lists.gnu.org/archive/html/guix-devel/2018-04/msg00050.html
