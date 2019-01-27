@@ -49,7 +49,7 @@ Format specific information:
     corrupt: false
 $ qemu-img resize guixsd-vm-image-0.16.0.x86_64-linux +10G
 # Out of memory when running `guix pull` and qemu with `-m 256`
-$ qemu-system-x86_64 -net user -net nic,model=virtio -enable-kvm -m 1024 guixsd-vm-image-0.16.0.x86_64-linux
+$ qemu-system-x86_64 -net user -net nic,model=virtio -cpu host -enable-kvm -m 1024 guixsd-vm-image-0.16.0.x86_64-linux
 ```
 
 Inside guixsd
@@ -109,6 +109,16 @@ $ cat index.html
 
 ## qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.80000001H:ECX.svm [bit 2]
 
+The "Nested VMX" feature adds this missing capability - of running guest
+hypervisors (which use VMX) with their own nested guests.
+
+https://www.kernel.org/doc/Documentation/virtual/kvm/nested-vmx.txt
+
+Solved by running qemu with `-cpu host -enable-kvm` parameters.
+
+Running with `-cpu qemu64,+vmx -enable-kvm`
+
+https://stackoverflow.com/questions/39154850/how-to-emulate-vmx-feature-with-qemu/39277264#39277264
 
 ## git
 
