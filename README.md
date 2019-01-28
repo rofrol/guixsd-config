@@ -177,7 +177,12 @@ $ useradd  -c 'sshd PrivSep' -d /var/lib/sshd -m -g sshd -s /bin/false -u 50 ssh
 ```
 
 - https://en.wikibooks.org/wiki/QEMU/Networking
+- https://wiki.debian.org/QEMU#Networking
 
 ## services
 
 systemd is not an option https://lists.gnu.org/archive/html/guix-devel/2018-04/msg00050.html
+
+## julia
+
+Now there is 1.1.0 version and in guix it is 0.6.0 https://www.gnu.org/software/guix/packages/J/
