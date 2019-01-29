@@ -168,16 +168,50 @@ After rebooting, new grub entry appeared and now dhclient is run on start.
 
 ## ssh server
 
+For networking we use user mode with port forwarding. Without port forwarding it is not possible in user mode to connect from host to guest:
+
+`qemu-system-x86_64 -net user,hostfwd=tcp::10022-:22 -net nic,model=virtio -cpu host -enable-kvm -m 1024 guixsd-vm-image-0.16.0.x86_64-linux`
+
+We can also use `-nic` option to avoid creating hub https://www.qemu.org/2018/05/31/nic-parameter/
+
+`qemu-system-x86_64 -net user,hostfwd=tcp::10022-:22 -net nic,model=virtio -cpu host -enable-kvm -m 1024 guixsd-vm-image-0.16.0.x86_64-linux`
+
 Inside guix
 
 ```bash
 $ guix package -i openssh
+```
+
+user and group needed for sshd are specified in `vm-image.scm` inside this repository. This way you will have this user and group after restart:
+
+`guix system reconfigure vm-image.scm`.
+
+You can also temporarily create it:
+
+```bash
 $ groupadd -g 50 sshd
 $ useradd  -c 'sshd PrivSep' -d /var/lib/sshd -m -g sshd -s /bin/false -u 50 sshd 
 ```
 
+Let's run the sshd:
+
+```bash
+# set passwd for root if it is not set
+$ passwd
+$ echo PermitRootLogin yes >> /etc/ssh/sshd_config
+$ ssh-keygen -t ecdsa -N "" -f /etc/ssh/ssh_host_ecdsa_key
+$ ~/.guix-profile/sbin/sshd -f /etc/ssh/sshd_config
+```
+
+Now on the host:
+
+`ssh -p10022 root@localhost`
+
+- based on https://qemu.weilnetz.de/doc/qemu-doc.html#Network-options nad telnet example for hostfwd option
 - https://en.wikibooks.org/wiki/QEMU/Networking
 - https://wiki.debian.org/QEMU#Networking
+
+## More networking
 
 I can run `serve` static html file on host and download it in guest with `wget 192.168.0.17:5000`.
 
