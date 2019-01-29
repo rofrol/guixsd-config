@@ -237,3 +237,9 @@ systemd is not an option https://lists.gnu.org/archive/html/guix-devel/2018-04/m
 ## julia
 
 Now there is 1.1.0 version and in guix it is 0.6.0 https://www.gnu.org/software/guix/packages/J/
+
+## vs snap and flatpak etc.
+
+I agree with a lot of this. GNU/Linux distros are going down a very dangerous path with Snappy, Docker, Flatpak, Atomic, etc. I think a lot of this is responding to the fact that traditional systems package managers are quite bad by today's standards. They are imperative (no atomic transactions), use global state (/usr), and require root privileges. Snappy and co. take the "fuck it, I'm out" approach of bundling the world with your application, which is terrible for user control and security. Instead, I urge folks to check out the functional package managers GNU Guix[0] and Nix[1], and their accompanying distributions GuixSD and NixOS. Both Guix and Nix solve the problems of traditional systems package managers, while adding additional useful features (like reproducible builds, universal virtualenv, and full-system config management) and avoiding the massive drawbacks of Snappy and friends.
+
+https://news.ycombinator.com/item?id=11911871
