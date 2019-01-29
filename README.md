@@ -243,3 +243,15 @@ Now there is 1.1.0 version and in guix it is 0.6.0 https://www.gnu.org/software/
 I agree with a lot of this. GNU/Linux distros are going down a very dangerous path with Snappy, Docker, Flatpak, Atomic, etc. I think a lot of this is responding to the fact that traditional systems package managers are quite bad by today's standards. They are imperative (no atomic transactions), use global state (/usr), and require root privileges. Snappy and co. take the "fuck it, I'm out" approach of bundling the world with your application, which is terrible for user control and security. Instead, I urge folks to check out the functional package managers GNU Guix[0] and Nix[1], and their accompanying distributions GuixSD and NixOS. Both Guix and Nix solve the problems of traditional systems package managers, while adding additional useful features (like reproducible builds, universal virtualenv, and full-system config management) and avoiding the massive drawbacks of Snappy and friends.
 
 https://news.ycombinator.com/item?id=11911871
+
+## about
+
+We offer deblobbed Linux (linux-libre) by default.
+
+However, it is very simple to customise packages, including the kernel package, e.g. to apply patches, use different sources, or to exercise your right to disagree with the Linux libre upstream on what blobs should be deleted from the kernel.
+
+That said, I consider freedom by default a feature and it works very well on most of the hardware I use (an exception is an on-board Radeon graphics chip in a desktop machine I don't use much).
+
+Creating package variants is almost trivial; it's certainly no harder than, say, customising Emacs. Guix blurs the lines between user and maintainer, so using custom package definitions is a supported use-case. At work even our scientist users create custom packages in case they are not available in Guix upstream yet. 
+
+https://news.ycombinator.com/item?id=11915224
