@@ -179,6 +179,23 @@ $ useradd  -c 'sshd PrivSep' -d /var/lib/sshd -m -g sshd -s /bin/false -u 50 ssh
 - https://en.wikibooks.org/wiki/QEMU/Networking
 - https://wiki.debian.org/QEMU#Networking
 
+I can run `serve` static html file on host and download it in guest with `wget 192.168.0.17:5000`.
+
+
+```bash
+$ nmap -Pn -n 10.105.2.65
+Starting Nmap 7.70 ( https://nmap.org ) at 2019-01-28 10:10 CET
+Nmap scan report for 10.105.2.65
+Host is up.
+All 1000 scanned ports on 10.105.2.65 are filtered
+
+Nmap done: 1 IP address (1 host up) scanned in 201.35 seconds
+```
+
+[How to allow ping between ubuntu 14.04 qemu host and windows guests](https://ubuntuforums.org/showthread.php?t=2232093)
+
+
+
 ## services
 
 systemd is not an option https://lists.gnu.org/archive/html/guix-devel/2018-04/msg00050.html
