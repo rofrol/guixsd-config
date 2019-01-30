@@ -244,6 +244,43 @@ I agree with a lot of this. GNU/Linux distros are going down a very dangerous pa
 
 https://news.ycombinator.com/item?id=11911871
 
+
+Both Nix and Guix provide amazing tools for sandboxing. And for reproducibility, rollbacks...
+
+I think Snap/Flatpack are a much inferior solution vs Nix/Guix. Imagine a heartbleed-like scenario. With Nix/Guix, you know exactly what is running in your computer. With containers, it's a lot trickier. Plus you can't really reproduce builds or patch them.
+
+Snap/Flatpack means moving into the macOS model of Apps. I don't want Apps. I want package management, which is one of the key advantages of Linux.
+
+https://www.reddit.com/r/linux/comments/7drgl6/with_nix_and_guix_around_why_do_we_need_snaps_and/dq06sqd/
+
+
+I initially liked the idea of Nix, but I didn't like NixOS. The implementation has accumulated some cruft. It's undergoing major refactorings now, so it will probably get much better.
+
+My piece of advice is that you try GuixSD. It's very elegant. Some reasons I love it (most apply to Nix too):
+
+    My whole system configuration is a reproducible DSL (Scheme) file.
+
+    I can rollback to any system configuration. Thus, I can't break my system.
+
+    Containers are baked in (answers your question).
+
+    All packages are reproducible. I can challenge the binary I'm getting from a repo, rebuild it from source and see whether both match.
+
+    You can install multiple versions of any package. You get the best of both worlds: rolling and stable releases.
+
+    Since package builds are reproducible recipes, it's trivial to inherit from a given recipe (say Linux kernel), alter a few things (say change the repo to linux-zen and add a few flags). You get the best of both worlds: binary and source based distros.
+
+    Guix can use Nix packages and vice versa.
+
+Snap and Flatpack make sense for big deployments or weird proprietary binaries.
+
+https://www.reddit.com/r/linux/comments/7drgl6/with_nix_and_guix_around_why_do_we_need_snaps_and/dq0bhmo/
+
+
+I have solved the problem of reproducibility and rollbacks for myself, thank you, without the complexity of NixOS (never used guix, so maybe I am missing out there). I use squashfs images backed by dm_verity together with a signed kernel. So I know that if the machine boots, then it is in exactly the state I installed it -- and nodoby can have changed anything in the meantime, not even root. I have not found any way to get a similarly strong guarantee in NixOS.
+
+https://www.reddit.com/r/linux/comments/7drgl6/with_nix_and_guix_around_why_do_we_need_snaps_and/dq0agli/
+
 ## about
 
 We offer deblobbed Linux (linux-libre) by default.
