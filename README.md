@@ -13,7 +13,8 @@ $ unxz guixsd-vm-image-0.16.0.x86_64-linux.xz
 # or this: unxz -k -c guixsd-vm-image-0.16.0.x86_64-linux.xz > guixsd-vm-image-0.16.0.x86_64-linux-2
 # use `-nic` option to avoid creating hub https://www.qemu.org/2018/05/31/nic-parameter/
 # virtio-net-pci seems the best https://www.linux-kvm.org/page/10G_NIC_performance:_VFIO_vs_virtio
-$ qemu-system-x86_64 -nic user,model=virtio-net-pci -enable-kvm -m 256 guixsd-vm-image-0.16.0.x86_64-linux
+# Out of memory when running `guix pull` and qemu with `-m 256`
+$ qemu-system-x86_64 -nic user,model=virtio-net-pci -enable-kvm -m 1024 guixsd-vm-image-0.16.0.x86_64-linux
 ```
 
 Press enter to when see blue menu.
@@ -50,7 +51,6 @@ Format specific information:
     refcount bits: 16
     corrupt: false
 $ qemu-img resize guixsd-vm-image-0.16.0.x86_64-linux +10G
-# Out of memory when running `guix pull` and qemu with `-m 256`
 $ qemu-system-x86_64 -nic user,model=virtio-net-pci -cpu host -enable-kvm -m 1024 guixsd-vm-image-0.16.0.x86_64-linux
 ```
 
@@ -109,7 +109,7 @@ $ cat index.html
 - https://www.gnu.org/software/guix/manual/en/html_node/Invoking-guix-package.html 
 - https://www.gnu.org/software/guix/packages/
 
-## qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.80000001H:ECX.svm [bit 2]
+## TCG doesn't support requested feature: CPUID.01H:ECX.vmx
 
 The "Nested VMX" feature adds this missing capability - of running guest
 hypervisors (which use VMX) with their own nested guests.
@@ -118,7 +118,7 @@ https://www.kernel.org/doc/Documentation/virtual/kvm/nested-vmx.txt
 
 Solved by running qemu with `-cpu host -enable-kvm` parameters.
 
-Running with `-cpu qemu64,+vmx -enable-kvm`
+Running with `-cpu qemu64,+vmx -enable-kvm` I got `warning: host doesn't support requested feature: CPUID.80000001H:ECX.svm`
 
 https://stackoverflow.com/questions/39154850/how-to-emulate-vmx-feature-with-qemu/39277264#39277264
 
