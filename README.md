@@ -210,6 +210,7 @@ Now on the host:
 - based on https://qemu.weilnetz.de/doc/qemu-doc.html#Network-options nad telnet example for hostfwd option
 - https://en.wikibooks.org/wiki/QEMU/Networking
 - https://wiki.debian.org/QEMU#Networking
+- [How to get sshd running on install image for easier remote install](https://lists.gnu.org/archive/html/help-guix/2017-01/msg00047.html)
 
 ## More networking
 
