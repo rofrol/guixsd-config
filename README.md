@@ -11,7 +11,9 @@ Grab the latest image from https://alpha.gnu.org/gnu/guix/.
 $ curl -OJN https://alpha.gnu.org/gnu/guix/guixsd-vm-image-0.16.0.x86_64-linux.xz
 $ unxz guixsd-vm-image-0.16.0.x86_64-linux.xz
 # or this: unxz -k -c guixsd-vm-image-0.16.0.x86_64-linux.xz > guixsd-vm-image-0.16.0.x86_64-linux-2
-$ qemu-system-x86_64 -net user -net nic,model=virtio -enable-kvm -m 256 guixsd-vm-image-0.16.0.x86_64-linux
+# use `-nic` option to avoid creating hub https://www.qemu.org/2018/05/31/nic-parameter/
+# virtio-net-pci seems the best https://www.linux-kvm.org/page/10G_NIC_performance:_VFIO_vs_virtio
+$ qemu-system-x86_64 -nic user,model=virtio-net-pci -enable-kvm -m 256 guixsd-vm-image-0.16.0.x86_64-linux
 ```
 
 Press enter to when see blue menu.
@@ -49,7 +51,7 @@ Format specific information:
     corrupt: false
 $ qemu-img resize guixsd-vm-image-0.16.0.x86_64-linux +10G
 # Out of memory when running `guix pull` and qemu with `-m 256`
-$ qemu-system-x86_64 -net user -net nic,model=virtio -cpu host -enable-kvm -m 1024 guixsd-vm-image-0.16.0.x86_64-linux
+$ qemu-system-x86_64 -nic user,model=virtio-net-pci -cpu host -enable-kvm -m 1024 guixsd-vm-image-0.16.0.x86_64-linux
 ```
 
 Inside guixsd
@@ -170,11 +172,9 @@ After rebooting, new grub entry appeared and now dhclient is run on start.
 
 For networking we use user mode with port forwarding. Without port forwarding it is not possible in user mode to connect from host to guest:
 
-`qemu-system-x86_64 -net user,hostfwd=tcp::10022-:22 -net nic,model=virtio -cpu host -enable-kvm -m 1024 guixsd-vm-image-0.16.0.x86_64-linux`
-
-We can also use `-nic` option to avoid creating hub https://www.qemu.org/2018/05/31/nic-parameter/
-
-`qemu-system-x86_64 -net user,hostfwd=tcp::10022-:22 -net nic,model=virtio -cpu host -enable-kvm -m 1024 guixsd-vm-image-0.16.0.x86_64-linux`
+```bash
+$ qemu-system-x86_64 -nic user,hostfwd=tcp::10022-:22,model=virtio-net-pci -cpu host -enable-kvm -m 1024 guixsd-vm-image-0.16.0.x86_64-linux
+```
 
 Inside guix
 
